@@ -26,8 +26,11 @@ export const usePrayers = () => {
       const date = dateString || new Date().toISOString().split('T')[0];
       const response = await api.get(`/prayers/today?date=${date}`);
       
-      // If response has prayers, merge them into the default state
-      if (response.data && response.data.prayers) {
+      const prayersArray = Array.isArray(response.data) 
+        ? response.data 
+        : (response.data?.prayers || []);
+
+      if (prayersArray && prayersArray.length > 0) {
         const prayersMap = {
           Fajr: 'pending',
           Dhuhr: 'pending',
@@ -36,9 +39,10 @@ export const usePrayers = () => {
           Isha: 'pending'
         };
         
-        response.data.prayers.forEach(p => {
-          if (prayersMap[p.name] !== undefined) {
-            prayersMap[p.name] = p.status;
+        prayersArray.forEach(p => {
+          const name = p.prayerName || p.name;
+          if (name && prayersMap[name] !== undefined) {
+            prayersMap[name] = p.status;
           }
         });
         setTodayPrayers(prayersMap);

@@ -1,8 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-
-const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
-const API_URL = `${API_BASE}/history`;
+import api from '../../services/api';
 
 export const useHistory = () => {
   const [logs, setLogs] = useState([]);
@@ -28,7 +25,7 @@ export const useHistory = () => {
 
   const fetchStreaks = useCallback(async () => {
     try {
-      const response = await axios.get(`${API_URL}/streaks`, { withCredentials: true });
+      const response = await api.get('/history/streaks');
       setStreaks(response.data.streaks);
       setSummary(response.data.summary);
     } catch (err) {
@@ -59,12 +56,12 @@ export const useHistory = () => {
       if (filters.endDate) params.append('endDate', filters.endDate);
       if (filters.search) params.append('search', filters.search);
 
-      const response = await axios.get(`${API_URL}/filter?${params.toString()}`, { withCredentials: true });
+      const response = await api.get(`/history/filter?${params.toString()}`);
       
       const newLogs = response.data.logs;
       
       if (isLoadMore) {
-        setLogs(prev => [...prev, ...newLogs]);
+         setLogs(prev => [...prev, ...newLogs]);
         setPage(currentPage);
       } else {
         setLogs(newLogs);
@@ -101,7 +98,7 @@ export const useHistory = () => {
 
   const getDayDetail = async (dateStr) => {
     try {
-      const response = await axios.get(`${API_URL}/day/${dateStr}`, { withCredentials: true });
+      const response = await api.get(`/history/day/${dateStr}`);
       return response.data;
     } catch (err) {
       console.error('Failed to load day detail', err);

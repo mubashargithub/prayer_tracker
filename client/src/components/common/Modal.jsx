@@ -11,23 +11,25 @@ const Modal = ({ isOpen, onClose, title, children, className = '' }) => {
     
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
     }
     
     return () => {
       document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
     };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto flex items-end sm:items-center justify-center">
       {/* Backdrop */}
       <div className="fixed inset-0 bg-black/45 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
 
       {/* Modal Content */}
-      <div className="flex min-h-full items-end sm:items-center justify-center p-0 sm:p-4">
-        <div className={`relative w-full max-w-md transform overflow-hidden rounded-t-3xl sm:rounded-xl bg-white dark:bg-charcoal-surface p-6 shadow-xl border-t sm:border border-gray-100 dark:border-charcoal-border transition-all duration-300 max-h-[90vh] sm:max-h-auto overflow-y-auto pb-safe ${className}`}>
+      <div className="flex min-h-full items-end sm:items-center justify-center p-0 sm:p-4 w-full max-w-md relative z-10">
+        <div className={`relative w-full transform overflow-hidden rounded-t-3xl sm:rounded-xl bg-white dark:bg-charcoal-surface p-6 shadow-xl border-t sm:border border-gray-100 dark:border-charcoal-border transition-all duration-300 max-h-[85vh] overflow-y-auto pb-safe ${className}`}>
           {/* Header */}
           <div className="flex items-center justify-between border-b border-gray-100 dark:border-charcoal-border pb-3 mb-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h3>

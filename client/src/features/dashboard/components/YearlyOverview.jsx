@@ -25,7 +25,7 @@ const YearlyOverview = ({ dataMap, onDayClick }) => {
         currentDay = addDays(currentDay, 1);
       }
       weeksArray.push(week);
-      if (currentDay > today && d === 6) break; // Optional break, but let's always render 53 weeks to be safe
+      if (currentDay > today) break;
     }
     return weeksArray;
   }, []);
