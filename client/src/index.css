@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --color-islamic-green: #6B8E7B; /* Sage Green */
+  --color-islamic-gold: #C19371; /* Desert Sand */
+  
+  /* Override emerald with Sage palette */
+  --color-emerald-50: #f4f7f5;
+  --color-emerald-100: #e3ebe6;
+  --color-emerald-200: #c7d8ce;
+  --color-emerald-300: #a0beaf;
+  --color-emerald-400: #789f8d;
+  --color-emerald-500: #6b8e7b;
+  --color-emerald-600: #547462;
+  --color-emerald-700: #455e50;
+  --color-emerald-800: #384d42;
+  --color-emerald-900: #2f4038;
+
+  /* Override amber with Desert Sand palette */
+  --color-amber-50: #fbf7f4;
+  --color-amber-100: #f5ebe3;
+  --color-amber-200: #ecd5c4;
+  --color-amber-300: #dfb89e;
+  --color-amber-400: #c19371;
+  --color-amber-500: #b57d56;
+  --color-amber-600: #a16442;
+  --color-amber-700: #865038;
+  --color-amber-800: #6d4231;
+  --color-amber-900: #58372a;
+
+  --color-charcoal-base: #0B132B; /* Midnight Navy */
+  --color-charcoal-surface: #14203D; /* Lighter Midnight */
+  --color-charcoal-border: #1F2D50;
+  
+  /* Font Families */
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-arabic: 'Amiri', 'Noto Naskh Arabic', serif;
+}
+
+/* Enable class-based dark mode in Tailwind v4 */
+@variant dark (&:where(.dark, .dark *));
+
+/* CSS Variables for Chart Colors (so Recharts can respond to theme changes) */
+:root {
+  --chart-text: #6b7280; /* text-gray-500 */
+  --chart-grid: #e5e7eb; /* border-gray-200 */
+  --chart-primary: #6B8E7B; /* Sage Green */
+  --chart-secondary: #C19371; /* Desert Sand */
+}
+
+.dark {
+  --chart-text: #9ca3af; /* text-gray-400 */
+  --chart-grid: #1F2D50; /* charcoal-border */
+  --chart-primary: #8AB09B; /* Lighter Sage */
+  --chart-secondary: #D4A885; /* Lighter Desert Sand */
+}
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 transition-colors duration-300 antialiased overflow-x-hidden;
+  }
+  
+  .dark body {
+    @apply bg-charcoal-base text-gray-100;
+  }
+  
+  /* Ensure input autofill in dark mode doesn't turn white */
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover, 
+  .dark input:-webkit-autofill:focus, 
+  .dark input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #14203D inset !important;
+      -webkit-text-fill-color: #f3f4f6 !important;
+  }
+}
+
+/* Custom Scrollbar Hiding */
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
