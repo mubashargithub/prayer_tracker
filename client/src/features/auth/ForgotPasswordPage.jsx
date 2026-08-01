@@ -24,7 +24,8 @@ const ForgotPasswordPage = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+      const API_BASE = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '/api' : 'http://localhost:5000/api');
+      const response = await axios.post(`${API_BASE}/auth/forgot-password`, { email });
       setEmailSent(true);
       toast.success(response.data.message || 'Reset instructions sent!');
     } catch (err) {

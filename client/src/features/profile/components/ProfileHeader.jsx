@@ -40,6 +40,10 @@ const ProfileHeader = ({ profile }) => {
   };
 
   const joinDate = profile?.createdAt ? format(new Date(profile.createdAt), 'MMMM yyyy') : 'Unknown';
+  
+  const backendBase = import.meta.env.VITE_API_URL 
+    ? import.meta.env.VITE_API_URL.replace('/api', '') 
+    : (import.meta.env.PROD ? '' : 'http://localhost:5000');
 
   return (
     <div className="bg-white dark:bg-charcoal-base rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-charcoal-border flex flex-col sm:flex-row items-center sm:items-start gap-6">
@@ -48,7 +52,7 @@ const ProfileHeader = ({ profile }) => {
       <div className="relative group cursor-pointer" onClick={handleImageClick}>
         <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-emerald-100 dark:bg-emerald-900/40 border-4 border-white dark:border-charcoal-surface shadow-md">
           {avatar ? (
-            <img src={avatar.startsWith('http') ? avatar : `http://localhost:5000${avatar}`} alt={profile?.name} className="w-full h-full object-cover" />
+            <img src={avatar.startsWith('http') ? avatar : `${backendBase}${avatar}`} alt={profile?.name} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-3xl font-bold">
               {profile?.name?.charAt(0).toUpperCase()}
