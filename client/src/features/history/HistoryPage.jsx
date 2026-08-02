@@ -99,6 +99,7 @@ const HistoryPage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         dateStr={selectedDate}
+        onRecordUpdated={fetchHistory}
       />
       
       </div>

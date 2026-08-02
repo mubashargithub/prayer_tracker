@@ -7,11 +7,14 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 
 const connectDB = require('./config/db');
+const seedDefaultDuas = require('./utils/seedDuas');
 const initScheduler = require('./services/cronScheduler');
 const { errorHandler, notFound } = require('./middleware/errorMiddleware');
 
 // Connect to Database
-connectDB();
+connectDB().then(() => {
+  seedDefaultDuas();
+}).catch(err => console.error(err));
 
 const app = express();
 

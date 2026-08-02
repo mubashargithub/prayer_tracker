@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../features/auth/authSlice';
-import { Moon, LogOut, User as UserIcon } from 'lucide-react';
+import { Mosque, LogOut, User as UserIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '../common/ThemeToggle';
 
@@ -20,7 +20,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50">
-              <Moon className="h-5 w-5 fill-emerald-600/10 dark:fill-emerald-400/10 rotate-12" />
+              <Mosque className="h-5 w-5 fill-emerald-600/10 dark:fill-emerald-400/10" />
             </div>
             <Link to="/dashboard" className="text-xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-1.5">
               Deen<span className="text-emerald-600 dark:text-emerald-400">Tracker</span>

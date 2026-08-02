@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, subDays } from 'date-fns';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Grid } from 'lucide-react';
+import { format, addMonths, subMonths, startOfMonth, endOfMonth } from 'date-fns';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import api from '../../../services/api';
 import MonthGridCalendar from './MonthGridCalendar';
-import YearlyOverview from './YearlyOverview';
 import DayDetailModal from '../../history/components/DayDetailModal';
 import Button from '../../../components/common/Button';
 
@@ -12,7 +11,6 @@ const dataCache = {};
 
 const ActivityHeatmap = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState('monthly'); // 'monthly' | 'yearly'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [fetchedData, setFetchedData] = useState([]);
@@ -22,18 +20,9 @@ const ActivityHeatmap = () => {
     setLoading(true);
     setError(null);
     try {
-      let startDate, endDate, cacheKey;
-      
-      if (viewMode === 'monthly') {
-        startDate = format(startOfMonth(currentDate), 'yyyy-MM-dd');
-        endDate = format(endOfMonth(currentDate), 'yyyy-MM-dd');
-        cacheKey = format(currentDate, 'yyyy-MM');
-      } else {
-        const today = new Date();
-        startDate = format(subDays(today, 365), 'yyyy-MM-dd');
-        endDate = format(today, 'yyyy-MM-dd');
-        cacheKey = 'yearly';
-      }
+      const startDate = format(startOfMonth(currentDate), 'yyyy-MM-dd');
+      const endDate = format(endOfMonth(currentDate), 'yyyy-MM-dd');
+      const cacheKey = format(currentDate, 'yyyy-MM');
 
       if (dataCache[cacheKey]) {
         setFetchedData(dataCache[cacheKey]);
@@ -50,7 +39,7 @@ const ActivityHeatmap = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentDate, viewMode]);
+  }, [currentDate]);
 
   useEffect(() => {
     fetchData();
@@ -72,57 +61,35 @@ const ActivityHeatmap = () => {
     setSelectedDay(dateStr);
   };
 
+  const handleRecordUpdated = useCallback(() => {
+    // Clear cache to force refetch
+    Object.keys(dataCache).forEach(key => delete dataCache[key]);
+    fetchData();
+  }, [fetchData]);
+
   return (
     <div className="space-y-4">
       {/* Header Controls */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center space-x-2">
-          <div className="bg-gray-100 dark:bg-[#272C35] p-1 rounded-lg flex space-x-1">
-            <button
-              onClick={() => setViewMode('monthly')}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                viewMode === 'monthly' 
-                  ? 'bg-white dark:bg-charcoal-surface text-gray-900 dark:text-white shadow-sm' 
-                  : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-              }`}
-            >
-              <div className="flex items-center space-x-1">
-                <CalendarIcon className="w-4 h-4" />
-                <span>Monthly</span>
-              </div>
-            </button>
-            <button
-              onClick={() => setViewMode('yearly')}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                viewMode === 'yearly' 
-                  ? 'bg-white dark:bg-charcoal-surface text-gray-900 dark:text-white shadow-sm' 
-                  : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
-              }`}
-            >
-              <div className="flex items-center space-x-1">
-                <Grid className="w-4 h-4" />
-                <span>Yearly</span>
-              </div>
-            </button>
-          </div>
-        </div>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+          <CalendarIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+          <span>Activity Heatmap</span>
+        </h3>
 
-        {viewMode === 'monthly' && (
-          <div className="flex items-center space-x-3">
-            <Button variant="secondary" className="px-2 py-1.5 h-8" onClick={handlePrevMonth}>
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
-            <span className="text-base font-bold text-gray-900 dark:text-white min-w-[120px] text-center">
-              {format(currentDate, 'MMMM yyyy')}
-            </span>
-            <Button variant="secondary" className="px-2 py-1.5 h-8" onClick={handleNextMonth}>
-              <ChevronRight className="w-5 h-5" />
-            </Button>
-            <Button variant="outline" className="px-3 py-1.5 h-8 text-xs ml-2" onClick={handleToday}>
-              Today
-            </Button>
-          </div>
-        )}
+        <div className="flex items-center space-x-3">
+          <Button variant="secondary" className="px-2 py-1.5 h-8" onClick={handlePrevMonth}>
+            <ChevronLeft className="w-5 h-5" />
+          </Button>
+          <span className="text-base font-bold text-gray-900 dark:text-white min-w-[120px] text-center">
+            {format(currentDate, 'MMMM yyyy')}
+          </span>
+          <Button variant="secondary" className="px-2 py-1.5 h-8" onClick={handleNextMonth}>
+            <ChevronRight className="w-5 h-5" />
+          </Button>
+          <Button variant="outline" className="px-3 py-1.5 h-8 text-xs ml-2" onClick={handleToday}>
+            Today
+          </Button>
+        </div>
       </div>
 
       {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -135,22 +102,15 @@ const ActivityHeatmap = () => {
           </div>
         )}
 
-        {viewMode === 'monthly' ? (
-          <MonthGridCalendar 
-            currentDate={currentDate} 
-            dataMap={dataMap} 
-            onDayClick={handleDayClick} 
-          />
-        ) : (
-          <YearlyOverview 
-            dataMap={dataMap} 
-            onDayClick={handleDayClick} 
-          />
-        )}
+        <MonthGridCalendar 
+          currentDate={currentDate} 
+          dataMap={dataMap} 
+          onDayClick={handleDayClick} 
+        />
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center justify-between sm:justify-end gap-4 mt-6 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-charcoal-border pt-4">
+      <div className="flex flex-wrap items-center justify-between sm:justify-end gap-4 mt-6 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-[#1F2D50] pt-4">
         <div className="flex items-center space-x-2">
           <span>Reminders Completed:</span>
           <div className="flex gap-0.5">
@@ -161,11 +121,11 @@ const ActivityHeatmap = () => {
 
         <div className="flex items-center space-x-2">
           <span>Less</span>
-          <div className="w-3.5 h-3.5 bg-gray-100 dark:bg-[#272C35] rounded-sm border border-gray-200 dark:border-transparent"></div>
-          <div className="w-3.5 h-3.5 bg-emerald-200 dark:bg-[#064e3b] rounded-sm"></div>
-          <div className="w-3.5 h-3.5 bg-emerald-400 dark:bg-[#065f46] rounded-sm"></div>
-          <div className="w-3.5 h-3.5 bg-emerald-600 dark:bg-[#047857] rounded-sm"></div>
-          <div className="w-3.5 h-3.5 bg-amber-400 dark:bg-amber-600 rounded-sm shadow-[0_0_8px_rgba(251,191,36,0.5)]"></div>
+          <div className="w-3.5 h-3.5 bg-gray-100 dark:bg-[#20293F] rounded-sm border border-gray-200 dark:border-charcoal-border" title="0%"></div>
+          <div className="w-3.5 h-3.5 bg-emerald-50 dark:bg-emerald-900/10 rounded-sm border border-emerald-100 dark:border-emerald-900/30" title="1-40%"></div>
+          <div className="w-3.5 h-3.5 bg-emerald-100 dark:bg-emerald-900/30 rounded-sm border border-emerald-200 dark:border-emerald-800/40" title="41-70%"></div>
+          <div className="w-3.5 h-3.5 bg-emerald-500 dark:bg-emerald-600 rounded-sm border border-emerald-600 dark:border-emerald-500" title="71-99%"></div>
+          <div className="w-3.5 h-3.5 bg-amber-400 dark:bg-amber-600 rounded-sm border border-amber-300 dark:border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]" title="Perfect Day"></div>
           <span>Perfect</span>
         </div>
       </div>
@@ -174,7 +134,8 @@ const ActivityHeatmap = () => {
         <DayDetailModal 
           isOpen={!!selectedDay} 
           onClose={() => setSelectedDay(null)} 
-          date={selectedDay} 
+          dateStr={selectedDay} 
+          onRecordUpdated={handleRecordUpdated}
         />
       )}
     </div>

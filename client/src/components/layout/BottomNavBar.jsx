@@ -1,20 +1,20 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  History,
-  User
+  LayoutGrid,
+  CalendarDays,
+  UserRound
 } from 'lucide-react';
 import KaabaIcon from '../icons/KaabaIcon';
 import PrayingHandsIcon from '../icons/PrayingHandsIcon';
 
 const BottomNavBar = () => {
   const menuItems = [
-    { name: 'Home', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'Home', path: '/dashboard', icon: LayoutGrid },
     { name: 'Prayers', path: '/prayers', icon: KaabaIcon },
     { name: 'Duas', path: '/duas', icon: PrayingHandsIcon },
-    { name: 'History', path: '/history', icon: History },
-    { name: 'Profile', path: '/profile', icon: User },
+    { name: 'History', path: '/history', icon: CalendarDays },
+    { name: 'Profile', path: '/profile', icon: UserRound },
   ];
 
   return (

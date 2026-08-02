@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ActivityHeatmap from './components/ActivityHeatmap';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { 
-  Download, TrendingUp, Target, Activity, Loader, 
+  TrendingUp, Target, Activity, Loader, 
   Sunrise, Sun, Sunset, Moon, RotateCw, BookOpen, 
   Clock, Heart, Award, CheckCircle2, XCircle, AlertCircle, Sparkles, CheckSquare
 } from 'lucide-react';
@@ -86,8 +86,7 @@ const DashboardPage = () => {
     error,
     summary,
     trends,
-    fetchDashboardData,
-    exportData
+    fetchDashboardData
   } = useDashboard();
 
   const {
@@ -217,10 +216,6 @@ const DashboardPage = () => {
               <span className="text-emerald-600 dark:text-emerald-400 font-medium">{getHijriDate()}</span>
             </p>
           </div>
-          <Button onClick={exportData} variant="secondary" className="flex items-center space-x-2 bg-white dark:bg-charcoal-surface border border-gray-200 dark:border-charcoal-border hover:bg-gray-50">
-            <Download className="w-4 h-4" />
-            <span>Export CSV</span>
-          </Button>
         </div>
 
         {error && !loading && (

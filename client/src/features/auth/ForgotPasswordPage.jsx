@@ -5,7 +5,7 @@ import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
 import Card from '../../components/common/Card';
 import { toast } from 'sonner';
-import { Moon, ArrowLeft } from 'lucide-react';
+import { Mosque, ArrowLeft } from 'lucide-react';
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ const ForgotPasswordPage = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-charcoal-base transition-colors duration-300 flex flex-col justify-center py-12 px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 mb-4 shadow-sm">
-          <Moon className="h-6 w-6 fill-emerald-600/10 dark:fill-emerald-400/10 rotate-12" />
+          <Mosque className="h-6 w-6 fill-emerald-600/10 dark:fill-emerald-400/10" />
         </div>
         <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">Forgot Password</h2>
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">

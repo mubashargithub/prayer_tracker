@@ -13,12 +13,19 @@ const KaabaIcon = ({ className = '', ...props }) => {
       className={className}
       {...props}
     >
-      <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16" />
-      <path d="M3 21h18" />
-      <path d="M5 8h14" />
-      <path d="M5 12h14" />
-      <path d="M10 8v4" />
-      <path d="M14 8v4" />
+      {/* Kaaba Cube Outline */}
+      {/* Top Face */}
+      <polygon points="12,3 21,7.5 12,12 3,7.5" stroke="currentColor" fill="none" />
+      {/* Left Face */}
+      <polygon points="3,7.5 12,12 12,21 3,16.5" stroke="currentColor" fill="none" />
+      {/* Right Face */}
+      <polygon points="12,12 21,7.5 21,16.5 12,21" stroke="currentColor" fill="none" />
+      
+      {/* Kiswa (Gold Belt) */}
+      <path d="M3 10.5 L12 15 M12 15 L21 10.5" stroke="var(--color-islamic-gold, #C19371)" strokeWidth="1.5" />
+      
+      {/* Door of the Kaaba */}
+      <polygon points="15,18 15,14.5 17,13.5 17,17" stroke="var(--color-islamic-gold, #C19371)" fill="var(--color-islamic-gold, #C19371)" fillOpacity="0.2" strokeWidth="1" />
     </svg>
   );
 };

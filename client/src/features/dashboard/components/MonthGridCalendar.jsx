@@ -14,12 +14,12 @@ import { Tooltip } from 'react-tooltip';
 
 const getColorClass = (percent, isPerfectDay) => {
   if (isPerfectDay) {
-    return 'bg-amber-400 text-amber-900 dark:bg-amber-600 dark:text-amber-50 shadow-[0_0_10px_rgba(251,191,36,0.5)] border border-amber-300 dark:border-amber-500';
+    return 'bg-amber-400 text-amber-950 dark:bg-amber-600 dark:text-amber-50 shadow-[0_0_10px_rgba(245,158,11,0.4)] border border-amber-300 dark:border-amber-500';
   }
-  if (percent === 0) return 'bg-gray-50 text-gray-400 dark:bg-[#272C35] dark:text-gray-500 border border-gray-100 dark:border-charcoal-border';
-  if (percent <= 40) return 'bg-emerald-200 text-emerald-900 dark:bg-[#064e3b] dark:text-emerald-100 border border-emerald-300 dark:border-[#065f46]';
-  if (percent <= 70) return 'bg-emerald-400 text-emerald-900 dark:bg-[#065f46] dark:text-emerald-50 border border-emerald-500 dark:border-[#047857]';
-  return 'bg-emerald-600 text-white dark:bg-[#047857] dark:text-white border border-emerald-700 dark:border-[#059669]';
+  if (percent === 0) return 'bg-gray-100 text-gray-500 dark:bg-[#20293F] dark:text-gray-400 border border-gray-200/60 dark:border-charcoal-border';
+  if (percent <= 40) return 'bg-emerald-50 text-emerald-800 dark:bg-emerald-900/10 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30';
+  if (percent <= 70) return 'bg-emerald-100 text-emerald-900 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40';
+  return 'bg-emerald-500 text-white dark:bg-emerald-600 dark:text-white border border-emerald-600 dark:border-emerald-500';
 };
 
 const MonthGridCalendar = ({ currentDate, dataMap, onDayClick }) => {

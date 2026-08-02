@@ -1,22 +1,22 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  LayoutDashboard,
-  History,
-  User,
-  Bell
+  LayoutGrid,
+  CalendarDays,
+  UserRound,
+  AlarmClock
 } from 'lucide-react';
 import KaabaIcon from '../icons/KaabaIcon';
 import PrayingHandsIcon from '../icons/PrayingHandsIcon';
 
 const Sidebar = () => {
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'Dashboard', path: '/dashboard', icon: LayoutGrid },
     { name: 'Prayers', path: '/prayers', icon: KaabaIcon },
     { name: 'Duas', path: '/duas', icon: PrayingHandsIcon },
-    { name: 'Reminders', path: '/reminders', icon: Bell },
-    { name: 'History', path: '/history', icon: History },
-    { name: 'Profile', path: '/profile', icon: User },
+    { name: 'Reminders', path: '/reminders', icon: AlarmClock },
+    { name: 'History', path: '/history', icon: CalendarDays },
+    { name: 'Profile', path: '/profile', icon: UserRound },
   ];
 
   return (
